@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reality-check manifest.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "app",
+    "runs",
+    "surfaces",
+    "counts",
+    "headline"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 2
+    },
+    "app": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "framework": {
+          "type": "string"
+        },
+        "styling": {
+          "type": "string"
+        },
+        "base_url": {
+          "type": "string"
+        },
+        "dev_command": {
+          "type": "string"
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "run_id",
+          "started_at",
+          "phases",
+          "persona",
+          "viewports"
+        ],
+        "properties": {
+          "run_id": {
+            "type": "string"
+          },
+          "started_at": {
+            "type": "string"
+          },
+          "finished_at": {
+            "type": "string"
+          },
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "prepare",
+                "tour",
+                "verify",
+                "tickets",
+                "report",
+                "recheck"
+              ]
+            }
+          },
+          "persona": {
+            "type": "string"
+          },
+          "viewports": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modifiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "base_url": {
+            "type": "string"
+          },
+          "url_given": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "claims"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "secondary",
+              "feature"
+            ]
+          },
+          "scene": {
+            "type": "integer"
+          },
+          "claims": {
+            "type": "integer"
+          },
+          "confirmed": {
+            "type": "integer"
+          },
+          "contradicted": {
+            "type": "integer"
+          },
+          "blocked": {
+            "type": "integer"
+          },
+          "observations": {
+            "type": "integer"
+          },
+          "findings": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "claims_by_kind": {
+          "type": "object"
+        },
+        "claims_by_confidence": {
+          "type": "object"
+        },
+        "verdicts": {
+          "type": "object",
+          "properties": {
+            "confirmed": {
+              "type": "integer"
+            },
+            "contradicted": {
+              "type": "integer"
+            },
+            "blocked": {
+              "type": "integer"
+            }
+          }
+        },
+        "verdicts_by_confidence": {
+          "type": "object",
+          "description": "sure/inferred/guess -> {confirmed, contradicted, blocked}"
+        },
+        "observations": {
+          "type": "integer"
+        },
+        "findings_by_severity": {
+          "type": "object"
+        },
+        "tickets_by_status": {
+          "type": "object"
+        }
+      }
+    },
+    "headline": {
+      "type": "object",
+      "required": [
+        "functional_gap",
+        "design_findings"
+      ],
+      "properties": {
+        "functional_gap": {
+          "type": "object",
+          "properties": {
+            "contradicted": {
+              "type": "integer"
+            },
+            "decidable": {
+              "type": "integer"
+            },
+            "ratio": {
+              "type": "number"
+            },
+            "by_confidence": {
+              "type": "object"
+            }
+          }
+        },
+        "design_findings": {
+          "type": "object"
+        },
+        "unnarrated": {
+          "type": "integer"
+        },
+        "expectations": {
+          "type": "object"
+        },
+        "safe_to_say_seconds": {
+          "type": "integer"
+        },
+        "total_seconds": {
+          "type": "integer"
+        },
+        "regressions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

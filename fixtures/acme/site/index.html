@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in - Acme Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<main class="auth">
+  <h1>Sign in to Acme Tracker</h1>
+  <p class="lead">Track your projects and keep your team in sync.</p>
+  <form id="login-form" novalidate>
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="you@company.com" autocomplete="username">
+    <p class="hint">Use your work email address</p>
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <p id="login-error" class="error">That email and password combination is not right.</p>
+    <button class="btn" type="submit">Sign in</button>
+  </form>
+  <p class="footer-link">New here? <a href="register.html">Create an account</a></p>
+</main>
+<script src="js/auth.js"></script>
+</body>
+</html>

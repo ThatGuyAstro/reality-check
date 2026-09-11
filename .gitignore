@@ -1,0 +1,16 @@
+# Output this skill generates when run against a project (including the bundled fixtures)
+docs/reality-check/
+fixtures/*/site/docs/
+fixtures/*/docs/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.DS_Store
+.vscode/
+*.swp
+
+# Node (in case anyone installs agent-browser locally instead of globally)
+node_modules/

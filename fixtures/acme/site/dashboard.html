@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard - Acme Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Acme Tracker</div>
+    <nav>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="settings.html">Settings</a>
+      <a href="reports.html" style="display:none">Reports</a>
+      <a href="index.html" id="sign-out">Sign out</a>
+    </nav>
+  </aside>
+  <section class="main">
+    <h1>Dashboard</h1>
+    <p class="sub" id="greeting">Welcome back.</p>
+    <div class="cards">
+      <div class="card"><div class="num" id="stat-projects">3</div><div class="lbl">Active projects</div></div>
+      <div class="card"><div class="num" id="stat-tasks">27</div><div class="lbl">Open tasks</div></div>
+      <div class="card"><div class="num" id="stat-due">4</div><div class="lbl">Due this week</div></div>
+    </div>
+    <div class="toolbar">
+      <h2 style="margin:0;font-size:18px">Projects</h2>
+      <button class="btn secondary" id="export-csv" type="button">Export CSV</button>
+    </div>
+    <table>
+      <thead><tr><th>Project</th><th>Owner</th><th>Status</th><th>Open tasks</th></tr></thead>
+      <tbody id="project-rows">
+        <tr><td>Website refresh</td><td>Priya</td><td><span class="status active">Active</span></td><td>12</td></tr>
+        <tr><td>Mobile onboarding</td><td>Marcus</td><td><span class="status active">Active</span></td><td>9</td></tr>
+        <tr><td>Billing migration</td><td>Demo User</td><td><span class="status paused">Paused</span></td><td>6</td></tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

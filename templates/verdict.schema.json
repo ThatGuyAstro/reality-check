@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reality-check verdict (append-only; latest row per claim is current)",
+  "type": "object",
+  "required": [
+    "claim",
+    "run_id",
+    "verdict",
+    "url",
+    "screenshot",
+    "observed",
+    "decided_at"
+  ],
+  "properties": {
+    "claim": {
+      "type": "string",
+      "pattern": "^(clm-[a-z0-9-]+-[0-9]+|exp-[0-9]+)$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^run-[0-9]{8}-[0-9]{4}$"
+    },
+    "surface": {
+      "type": "string"
+    },
+    "viewport": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string",
+      "pattern": "^(confirmed|contradicted|blocked\\((no-runtime|credentials|needs-data|external-service|crash|destructive|precondition:clm-[a-z0-9-]+-[0-9]+)\\))$"
+    },
+    "gap": {
+      "type": "string",
+      "enum": [
+        "model-belief",
+        "behavior",
+        "environment"
+      ]
+    },
+    "url": {
+      "type": "string"
+    },
+    "screenshot": {
+      "type": "string"
+    },
+    "step_screenshots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observed": {
+      "type": "string"
+    },
+    "matched": {
+      "type": "string"
+    },
+    "unmatched": {
+      "type": "string"
+    },
+    "console_excerpt": {
+      "type": "string"
+    },
+    "network_excerpt": {
+      "type": "string"
+    },
+    "measurements": {
+      "type": "object"
+    },
+    "created_records": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reached_via": {
+      "type": "string",
+      "enum": [
+        "narrated",
+        "bypass"
+      ]
+    },
+    "note": {
+      "type": "string"
+    },
+    "code_peek": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "retries": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "decided_at": {
+      "type": "string"
+    }
+  },
+  "if": {
+    "properties": {
+      "verdict": {
+        "const": "contradicted"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "gap"
+    ]
+  }
+}

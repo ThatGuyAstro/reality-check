@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reality-check design finding (findings.jsonl)",
+  "type": "object",
+  "required": [
+    "id",
+    "surface",
+    "run_id",
+    "category",
+    "severity",
+    "basis",
+    "element",
+    "observed",
+    "principle",
+    "fix",
+    "check",
+    "screenshot",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^dsg-[a-z0-9-]+-[0-9]+$"
+    },
+    "surface": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "viewport": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "functional-affordance",
+        "layout",
+        "hierarchy",
+        "typography",
+        "color-contrast",
+        "states",
+        "navigation",
+        "content",
+        "hit-areas",
+        "accessibility",
+        "performance",
+        "polish"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "basis": {
+      "type": "string",
+      "enum": [
+        "floor",
+        "norm",
+        "expectation",
+        "human",
+        "structure"
+      ]
+    },
+    "element": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "observed": {
+      "type": "string"
+    },
+    "principle": {
+      "type": "string"
+    },
+    "fix": {
+      "type": "string"
+    },
+    "check": {
+      "type": "string"
+    },
+    "cluster": {
+      "type": "string"
+    },
+    "screenshot": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "fixed",
+        "regressed",
+        "retired"
+      ]
+    },
+    "retired_by": {
+      "type": "string"
+    }
+  }
+}

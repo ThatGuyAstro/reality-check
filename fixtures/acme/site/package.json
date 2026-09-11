@@ -1,0 +1,9 @@
+{
+  "name": "acme-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Acme Tracker - a small static project tracker used as a demo app",
+  "scripts": {
+    "dev": "python3 -m http.server 8765"
+  }
+}

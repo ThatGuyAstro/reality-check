@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reality-check claim (one per line in claims.jsonl)",
+  "type": "object",
+  "required": [
+    "id",
+    "surface",
+    "kind",
+    "functional",
+    "claim",
+    "expected",
+    "trigger",
+    "preconditions",
+    "evidence",
+    "confidence",
+    "destructive",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^clm-[a-z0-9-]+-[0-9]+$"
+    },
+    "surface": {
+      "type": "string"
+    },
+    "scene": {
+      "type": "integer"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "exists",
+        "shows",
+        "looks",
+        "does",
+        "flows",
+        "state",
+        "promise"
+      ]
+    },
+    "functional": {
+      "type": "boolean"
+    },
+    "claim": {
+      "type": "string",
+      "description": "the narrated sentence verbatim"
+    },
+    "expected": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string"
+    },
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "sure",
+        "inferred",
+        "guess"
+      ]
+    },
+    "destructive": {
+      "type": "boolean"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "secondary",
+        "feature"
+      ]
+    },
+    "persona": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "retired"
+      ]
+    },
+    "created_run": {
+      "type": "string"
+    }
+  }
+}
