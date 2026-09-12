@@ -476,6 +476,23 @@ actual run — not a hypothetical. The short version, from
   that nobody had put there on purpose — a login handler that silently discards a
   saved display name, and a dark-mode contrast regression.
 
+The state and design passes were added after a run against a large production app
+showed the verify phase photographing pages rather than states (zero visual claims,
+one hover screenshot in 289, most findings contrast or target-size numbers). The
+diagnosis and the fix are in
+[`docs/tests/2026-09-11-bigtimer-run-analysis.md`](docs/tests/2026-09-11-bigtimer-run-analysis.md)
+and the graded runs in
+[`docs/tests/2026-09-12-ui-state-green.md`](docs/tests/2026-09-12-ui-state-green.md):
+
+- On the Orbit fixture, **all 16 planted state, transformation, and design defects
+  surfaced in both cold runs**, 15 of 16 ticketed at medium or above each time.
+- Visual `looks` claims went from 0% of the tour to a third or more; every run now
+  writes 40 to 60 state rows, each with its own element screenshot.
+- The plain fixtures kept every earlier catch, and **no run filed a ticket against
+  a working state or a confirmed claim.**
+- Cost is real: the passes roughly double a run. A four-page app takes about 45
+  minutes; expect hours on a large one.
+
 ## FAQ
 
 **Does this replace tests?** No. Unit and integration tests check that code does
