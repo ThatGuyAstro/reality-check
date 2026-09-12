@@ -3,6 +3,14 @@
 Run: run-<YYYYMMDD-HHMM> | Written by phase 0 from the code; norms added by phase 2 sampling
 Sources read: <path>, <path> | Human rows preserved: <n>
 
+## Environment (read by the page dynamics pass)
+| key | value | provenance |
+|---|---|---|
+| breakpoints | <560, 900, 1160> | evidenced (<path:line>) \| none found (fallback 1280, 1024, 768, 390) |
+| modes | <light, dark> | evidenced (<path:line>) \| light only |
+| reduced-motion handled | <yes \| no> | evidenced (<path:line>) |
+| motion library | <motion/react \| css only \| none> | evidenced (<path>) |
+
 ## Floors (never adapt)
 | floor | standard | severity |
 |---|---|---|

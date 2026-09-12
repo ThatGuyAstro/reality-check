@@ -40,11 +40,14 @@
         "typography",
         "color-contrast",
         "states",
+        "transformation",
+        "consistency",
         "navigation",
         "content",
         "hit-areas",
         "accessibility",
         "performance",
+        "motion",
         "polish"
       ]
     },

@@ -1,0 +1,7 @@
+{
+  "name": "orbit-board",
+  "private": true,
+  "version": "0.3.0",
+  "description": "Orbit - a small static task board used as a demo app",
+  "scripts": { "dev": "python3 -m http.server 4180" }
+}

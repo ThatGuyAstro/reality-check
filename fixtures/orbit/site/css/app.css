@@ -1,0 +1,106 @@
+:root { --surf:#ffffff; --canvas:#f6f7f9; --line:#e5e7eb; --ink:#111827; --muted:#6b7280; --accent:#2b3a67; --accent-hover:#1f2a4d; --danger:#b3402f; --ok:#2f855a; --radius:8px; }
+.dark { --surf:#1f2229; --canvas:#15171c; --line:#33363e; --ink:#e8e9ee; --muted:#9aa0ab; --accent:#c7d2fe; --accent-hover:#b4c0f5; }
+* { box-sizing:border-box; }
+body { margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; color:var(--ink); background:var(--canvas); }
+a { color:var(--accent); }
+button { font:inherit; }
+/* P16: focus ring removed globally, never replaced */
+button:focus { outline:none; }
+button:focus-visible { outline:none; }
+.btn { height:36px; padding:0 14px; border-radius:var(--radius); border:1px solid var(--line); background:var(--surf); color:var(--ink); cursor:pointer; transition:background .15s ease,border-color .15s ease; }
+.btn:hover { background:var(--canvas); border-color:#c9ccd3; }
+.btn:active { transform:scale(.97); }
+.btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+.btn.primary:hover { background:var(--accent-hover); }
+.dark .btn.primary { color:#15171c; }
+/* P7: disabled with no reason */
+.btn:disabled { opacity:.45; cursor:not-allowed; }
+/* P10: a link styled as a primary button, and a button styled as a link */
+a.btn-like { display:inline-flex; align-items:center; height:36px; padding:0 14px; border-radius:var(--radius); background:var(--accent); color:#fff; text-decoration:none; }
+button.link-like { background:none; border:0; color:var(--accent); text-decoration:underline; padding:0; cursor:pointer; height:auto; }
+input, select { height:36px; padding:0 10px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surf); color:var(--ink); font:inherit; }
+input:focus { outline:2px solid var(--accent); outline-offset:1px; }
+input[aria-invalid="true"] { border-color:var(--danger); }
+.field { display:flex; flex-direction:column; gap:4px; margin-bottom:12px; }
+.field label { font-size:12px; color:var(--muted); }
+.hint { font-size:12px; color:var(--muted); }
+.err { color:var(--danger); font-size:13px; }
+.shell { display:grid; grid-template-columns:220px 1fr; min-height:100vh; }
+.sidebar { background:var(--surf); border-right:1px solid var(--line); padding:16px; display:flex; flex-direction:column; gap:6px; }
+.sidebar.collapsed { width:56px; padding:16px 8px; }
+.sidebar.collapsed .nav-label { display:none; }
+.brand { font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+/* P13: a loop that means nothing, never stopped under reduced motion */
+.live-dot { width:8px; height:8px; border-radius:50%; background:var(--ok); animation:pulse 1.2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.2 } }
+.nav a { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:6px; color:var(--ink); text-decoration:none; }
+.nav a:hover { background:var(--canvas); }
+.nav a:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+.nav a[aria-current="page"] { background:var(--canvas); font-weight:600; }
+.main { min-width:0; }
+.toolbar { position:sticky; top:0; z-index:5; background:var(--surf); border-bottom:1px solid var(--line); padding:12px 20px; display:flex; align-items:center; gap:10px; }
+.toolbar h1 { font-size:18px; margin:0 auto 0 0; }
+.content { padding:20px; }
+.tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+.tab { background:none; border:0; border-bottom:2px solid transparent; padding:8px 12px; color:var(--muted); cursor:pointer; }
+.tab:hover { color:var(--ink); }
+.tab[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); }
+.tab:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+.columns { display:grid; grid-template-columns:repeat(3,300px); gap:16px; min-width:932px; }
+.column { background:var(--surf); border:1px solid var(--line); border-radius:var(--radius); padding:12px; min-height:200px; }
+.column h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 10px; }
+/* P8: card ground is hard-coded white, no dark partner */
+.card { background:#ffffff; border:1px solid var(--line); border-radius:var(--radius); padding:10px 12px; margin-bottom:10px; position:relative; transition:all .6s ease; }
+/* P13: hover moves layout (scale) over a slow transition */
+.card:hover { transform:scale(1.04); box-shadow:0 6px 18px rgb(0 0 0 / .12); }
+.card:focus-within { outline:2px solid var(--accent); }
+.card .title { font-weight:600; margin:0 0 4px; }
+.card .meta { font-size:12px; color:var(--muted); display:flex; gap:8px; align-items:center; }
+.chip { display:inline-block; font-size:11px; padding:1px 7px; border-radius:999px; background:var(--canvas); border:1px solid var(--line); }
+.card .sample { font-size:10px; color:var(--muted); margin-top:6px; }
+/* P1: actions appear only on pointer hover; keyboard focus never reveals them */
+.card .actions { position:absolute; top:8px; right:8px; opacity:0; display:flex; gap:4px; }
+.card:hover .actions { opacity:1; }
+.icon-btn { width:28px; height:28px; border:1px solid var(--line); background:var(--surf); border-radius:6px; cursor:pointer; }
+.empty { color:var(--muted); font-size:13px; padding:20px 8px; text-align:center; }
+.empty.good { border:1px dashed var(--line); border-radius:var(--radius); }
+.empty.good a { display:block; margin-top:6px; }
+table { width:100%; border-collapse:collapse; background:var(--surf); border:1px solid var(--line); border-radius:var(--radius); }
+th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); }
+th { font-size:11px; text-transform:uppercase; color:var(--muted); }
+tr:hover td { background:var(--canvas); }
+/* dropdown menu: P3 never closes on outside click or Escape; P8 hard-coded colors invert wrong in dark */
+.menu-wrap { position:relative; }
+.menu { position:absolute; top:40px; left:0; min-width:180px; background:#ffffff; color:#ffffff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:0 8px 24px rgb(0 0 0 / .1); padding:6px; display:none; z-index:6; }
+.menu.open { display:block; }
+.menu button { display:block; width:100%; text-align:left; background:none; border:0; padding:8px 10px; border-radius:6px; cursor:pointer; color:#111827; }
+.menu button:hover { background:#f6f7f9; }
+/* dialog: P2 no focus management */
+.scrim { position:fixed; inset:0; background:rgb(15 16 25 / .35); display:none; z-index:20; }
+.scrim.open { display:block; }
+.dialog { position:fixed; top:20%; left:50%; transform:translateX(-50%); width:420px; background:var(--surf); border:1px solid var(--line); border-radius:12px; padding:20px; display:none; z-index:21; }
+.dialog.open { display:block; }
+.dialog h2 { margin:0 0 12px; font-size:16px; }
+.dialog .row { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+.toast { position:fixed; right:20px; bottom:20px; background:var(--ink); color:var(--surf); padding:10px 14px; border-radius:8px; display:none; }
+.toast.open { display:block; }
+.skeleton { background:linear-gradient(90deg,var(--line),var(--canvas),var(--line)); background-size:200% 100%; animation:shimmer 1.2s infinite; border-radius:6px; height:14px; margin:8px 0; }
+@keyframes shimmer { 0% { background-position:200% 0 } 100% { background-position:-200% 0 } }
+.panel { background:var(--surf); border:1px solid var(--line); border-radius:var(--radius); padding:14px; margin-bottom:16px; }
+.panel h2 { font-size:14px; margin:0 0 8px; }
+.activity-row { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); }
+.activity-row .who { color:var(--muted); font-size:12px; }
+.danger-zone { border-color:#ecd4cf; background:#fdf6f5; }
+.dark .danger-zone { background:#2b2124; border-color:#4a2f2f; }
+.auth { max-width:380px; margin:80px auto; background:var(--surf); border:1px solid var(--line); border-radius:12px; padding:24px; }
+.auth h1 { margin:0 0 4px; font-size:20px; }
+.auth .sub { color:var(--muted); margin:0 0 16px; }
+/* P9: at 900px the sidebar becomes an overlay but the main column never shifts, and the board keeps its 872px min-width */
+@media (max-width: 900px) {
+  .shell { grid-template-columns:1fr; }
+  .sidebar { position:fixed; top:0; left:0; bottom:0; width:220px; z-index:10; }
+}
+/* P13: reduced motion handled only for the shimmer, not the pulse or the card hover */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation:none; }
+}

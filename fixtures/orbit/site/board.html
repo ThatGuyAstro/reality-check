@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Board - Orbit</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="css/app.css"></head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="live-dot" aria-hidden="true"></span><span class="nav-label">Orbit</span><button id="nav-toggle" class="icon-btn" aria-label="Collapse navigation" aria-expanded="true" style="margin-left:auto">«</button></div>
+    <nav class="nav" aria-label="Main">
+      <a href="board.html" aria-current="page"><span aria-hidden="true">▦</span><span class="nav-label">Board</span></a>
+      <a href="activity.html"><span aria-hidden="true">◷</span><span class="nav-label">Activity</span></a>
+      <a href="settings.html"><span aria-hidden="true">⚙</span><span class="nav-label">Settings</span></a>
+      <a href="board.html#archived"><span aria-hidden="true">▤</span><span class="nav-label">Archived</span></a>
+    </nav>
+    <div style="margin-top:auto" class="nav-label"><span id="who"></span> · <button id="sign-out" class="link-like">Sign out</button></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="toolbar">
+      <h1>Board</h1>
+      <input id="search" type="search" placeholder="Search tasks" aria-label="Search tasks">
+      <div class="menu-wrap">
+        <button id="filter-btn" class="btn" aria-haspopup="menu" aria-expanded="false">Filter: All</button>
+        <div id="filter-menu" class="menu" role="menu">
+          <button role="menuitem" data-filter="all">All</button>
+          <button role="menuitem" data-filter="todo">To do</button>
+          <button role="menuitem" data-filter="in_progress">In progress</button>
+          <button role="menuitem" data-filter="done">Done</button>
+        </div>
+      </div>
+      <button id="export-btn" class="btn" disabled>Export</button>
+      <button class="link-like" type="button">View archive</button>
+      <a class="btn-like" href="#" id="delete-done">Delete all done</a>
+      <button id="new-btn" class="btn primary">New task</button>
+    </div>
+    <div class="content">
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button class="tab" role="tab" aria-selected="true" data-view="board" tabindex="0">Board</button>
+        <button class="tab" role="tab" aria-selected="false" data-view="list" tabindex="-1">List</button>
+        <button class="tab" role="tab" aria-selected="false" data-view="calendar" tabindex="-1">Calendar</button>
+        <span style="margin-left:auto" class="hint" id="count"></span>
+      </div>
+      <div id="view" aria-live="polite"></div>
+      <section class="panel" id="archived" style="margin-top:640px"><h2>Archived</h2><div id="archived-list"></div></section>
+    </div>
+  </main>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="dialog" id="new-dialog" role="dialog" aria-label="New task">
+  <h2>New task</h2>
+  <form id="dlg-form" novalidate>
+    <div class="field"><label for="dlg-title">Title</label><input id="dlg-title" type="text"><span id="dlg-err" class="err"></span></div>
+    <div class="field"><label for="dlg-due">Due</label><input id="dlg-due" type="text" placeholder="e.g. Sep 30"></div>
+    <div class="row"><button type="button" class="btn" id="dlg-cancel">Cancel</button><button type="submit" class="btn primary">Create</button></div>
+  </form>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="js/app.js"></script>
+<script src="js/board.js"></script>
+</body></html>

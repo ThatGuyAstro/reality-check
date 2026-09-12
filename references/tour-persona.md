@@ -12,8 +12,13 @@ Read in this order and keep `path:line` notes per surface. The order is what mak
 4. Handlers and effects: click and submit handlers, API calls, redirects, local storage, toasts, downloads.
 5. Cross-surface features: session and auth, search, notifications, theme, settings persistence, exports.
 6. Copy that promises something: README and docs claims, marketing lines, tooltips, empty-state hints, help text.
+7. State signals, per surface, with `references/ui-state-model.md` open: every `:hover`, `:focus-visible`, `:active`, `:disabled`, `[aria-expanded]`, `[aria-selected]`, `[data-state]`, `.is-*` rule that touches this surface's components; every `loading.tsx`, `Suspense` fallback, skeleton component, empty branch, error branch, `disabled=` expression, toast or dialog or menu library call, `transition` and `animation`; every breakpoint, `.dark` or `[data-theme]`, and `prefers-*` media query. These are promises about how the page looks and transforms, and they become claims.
 
 Do not run it, start it, curl it, probe its port, or open `docs/reality-check/verdicts.jsonl` or any prior verification file. On a re-tour, read only `claims.jsonl` to reuse ids after the new transcript is written.
+
+## State inventory (components.md)
+
+Before narrating a surface, write `surfaces/<slug>/components.md` from `templates/components.md`: one row per component class on the surface (button, icon button, nav item, tab, input, select, menu, dialog, drawer, list row, card, toast, skeleton, form, empty stage, stream), the states the code declares for it (from reading step 7, cited `path:line`), and the states `references/ui-state-model.md` section 2 expects that the code does not declare. Feature surfaces and destinations with no code get a one-line `components.md` (`n/a - exercised on <slugs>` or `n/a - target not found in code`). The inventory is the narrator's checklist: every declared state becomes a claim below; every expected-but-undeclared state becomes a `guess` claim that the user would still expect it ("I expect the Save button to stay disabled until I change something").
 
 ## Depth: tiered, unbounded
 
@@ -21,8 +26,12 @@ Do not run it, start it, curl it, probe its port, or open `docs/reality-check/ve
 - Everything else reachable (secondary routes, admin surfaces, modals from menus, footer links): at least one `exists` claim and one `flows` claim each.
 - Every item in the primary navigation and every call-to-action gets its own `flows` claim, even when no code for the target exists: `expected` is what the label implies ("a Reports page with the app chrome"), `confidence: guess`, evidence notes `target not found in code`. A link with no destination is exactly the gap phase 2 exists to catch. Such a destination gets its own surface with one `exists` claim, stays `tier: primary` when its link sits in the primary navigation, and is narrated as its own scene at the point in the walk where the user would reach it; "in full" means everything the code offers, which for a missing page is those two claims.
 - No cap on surfaces or claims. A large app gets a long tour.
+- Every surface narrates its states, not only its contents. Per component class in `components.md`: at least one `looks` claim for each interaction or availability state the code declares (hover, focus, pressed, disabled with its reason, busy), one `looks` claim per data state branch (skeleton, empty, error, degraded) with the copy quoted, and one `state` claim per transformation the page performs (a panel or menu opening and closing with focus behaviour, a rail collapsing, the layout at each declared breakpoint, each declared theme mode, reduced motion, persistence across reload). A surface with interactive components and no `looks` claims is an incomplete tour.
 
 ## Voice
+
+State sentences are narrated the same way, in the user's time: "I hover a card and it lifts a hair and its border darkens." "I press Save with the name empty and the field turns red with a message under it that says what to fix." "While the answer streams, the Send button becomes Stop." "With no connections yet, the table is replaced by a note that explains what a connection is and offers Add connection." "When I narrow the window under 900px the navigation collapses to icons and a menu button appears." "In dark mode the cards sit on a darker sheet and the text stays readable."
+
 
 The default persona is `howto` (`personas/howto.md`). Whatever the persona:
 
@@ -56,6 +65,7 @@ After the transcript is written, walk it top to bottom and write one row per anc
 
 - `id`: `clm-<slug>-<n>`, numbered in transcript order per surface.
 - `kind`: one of the seven in SKILL.md `<claims>`. A sentence that fits two kinds is two claims.
+- `component` and `state` (for `looks` and `state` claims about a component): the component class from `components.md` and the state point from `references/ui-state-model.md` section 1 (`hover`, `focus-visible`, `active`, `disabled`, `busy`, `loading`, `empty`, `error`, `open`, `expanded`, `selected`, `invalid`, `dark`, `narrow:<band>`, `reduced-motion`). `trigger` says how the state is reached ("hover the row", "narrow the window to 900px", "submit with the name empty").
 - `functional`: true for `does`, `flows`, `state`, `promise`.
 - `claim`: the sentence verbatim.
 - `expected`: one observable a browser can check. Not "it works"; "a file download starts or a toast reading Export ready appears".

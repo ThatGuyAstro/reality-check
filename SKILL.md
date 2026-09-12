@@ -17,6 +17,7 @@ Design rules:
 - **Evidence or nothing.** No verdict without a screenshot and a quoted observation. No finding without a measurement, a file, and a check that proves the fix.
 - **Both directions of the gap.** What the narrator claimed and the browser refuted, and what the browser showed that the narrator never mentioned.
 - **Graded against itself, with floors.** Universal floors (WCAG contrast, 24x24 targets, visible focus, no overflow, no console errors) never adapt. Everything else is graded against the project's own measured norms, never against a default number.
+- **Every state is a surface.** A component is not one picture; it is a set of states (hover, focus, pressed, disabled, busy, loading, empty, error, open, selected, invalid, dark, narrow) and a page transforms (breakpoints, modes, overlays, forms, scroll, keyboard). The tour claims the states the code declares, the verify pass drives every one and photographs it, and the critique judges whether the set is complete and whether each state does its job. `references/ui-state-model.md` is the vocabulary all three phases share.
 
 <modes>
 | Mode | Behavior |
@@ -47,15 +48,17 @@ docs/reality-check/
   tour.verified.md         phase 2 re-emission with [confirmed] | [contradicted] | [blocked] per line; safe-to-say running time in the header
   results.md                per templates/results.md
   claims.jsonl             per templates/claim.schema.json
+  states.jsonl             one row per component state or page dynamic exercised, per templates/state.schema.json
   verdicts.jsonl           append-only, one row per claim per run, per templates/verdict.schema.json
   observations.jsonl       unnarrated observations, per templates/observation.schema.json
   findings.jsonl           design findings, per templates/finding.schema.json
   personas/<name>.md       repo-local personas (optional)
   surfaces/<slug>/
+    components.md          phase 1 state inventory: component classes, declared states with path:line, expected-but-undeclared states
     claims.md              phase 1 ledger for this surface
-    verification.md        phase 2 verdict rows, expectation rows, unnarrated observations
-    critique.md            phase 2 impression paragraph plus measured findings
-    screenshots/           <clm-id>.png (interactive claims add --before/--after), <dsg-id>.png, <slug>--overview.png
+    verification.md        phase 2 verdict rows, state rows, expectation rows, unnarrated observations
+    critique.md            phase 2 impression, design read, state matrix, transformations, measured findings
+    screenshots/           <clm-id>.png (interactive claims add --before/--after), <dsg-id>.png (element capture in the state that shows the finding), <slug>--overview.png, <slug>--<component>--<state>.png per state, <slug>--<w>.png per breakpoint, <slug>--dark.png
     console.txt, a11y.json
     history/<run-id>/      previous run's screenshots and per-run files
   tickets/
@@ -70,13 +73,13 @@ Ids are stable forever, never renumbered; removed items get `status: retired`. `
 <phases>
 **0. Prepare** (read-only). Detect the dev command and port from the package manifest or framework config (`scripts.dev` or `start`, `next dev`, `vite`, `artisan serve`, `manage.py runserver`, `rails s`, `python3 -m http.server`). Find seed accounts in README, `.env*`, seeders, fixtures, test helpers. Write `environment.md`; when the docs contradict the files (a documented directory or script that does not exist), record both under `Notes` and mark the value `inferred`. Then read `references/critique-rubric.md` "Rubric" and write `rubric.md`: the floors, every checkable promise in README and docs as an `exp-<n>` row with its quote and path, and any design tokens that fix a norm outright. Start nothing, probe nothing: no port check, no binary check, no curl. Those belong to phase 2 setup.
 
-**1. Tour** (code only). Read `references/tour-persona.md` and the active persona. Read the app in the order that file gives, then write `tour.md` as a recordable first-person demo script, surface by surface, and split it into `surfaces/<slug>/claims.md` and `claims.jsonl`. Every sentence asserting something a user sees, or something that happens on an action, is exactly one claim with an inline anchor, a kind, a confidence tag, and code evidence. **No `agent-browser`, no server start, no curl, no reading of prior verdicts in this phase.**
+**1. Tour** (code only). Read `references/tour-persona.md`, `references/ui-state-model.md`, and the active persona. Read the app in the order the persona file gives, including its state signals (pseudo-classes, aria and data-state attributes, loading and empty and error branches, media queries, theme selectors), write `surfaces/<slug>/components.md` for each surface, then write `tour.md` as a recordable first-person demo script, surface by surface, and split it into `surfaces/<slug>/claims.md` and `claims.jsonl`. Every sentence asserting something a user sees, something that happens on an action, or how a component looks in a state, is exactly one claim with an inline anchor, a kind, a confidence tag, and code evidence. A surface with interactive components and no `looks` or `state` claims is not finished. **No `agent-browser`, no server start, no curl, no reading of prior verdicts in this phase.**
 
-**2. Verify** (browser only). Read `references/verification-protocol.md`, then `agent-browser skills get core`. Preflight the URL; if unreachable, start the dev command; if it cannot start, every claim is `blocked(no-runtime)` and the pipeline continues. Fresh named session, `set viewport 1920 1080` (or the configured viewport) before the first navigation. Walk surfaces in tour order honoring preconditions; run the sequence for each claim's kind; write the verdict row the moment it is decided. When a narrated navigation fails, mark it, navigate directly to the destination, and continue with `reached_via: bypass`. On every surface after its claims: verify applicable `exp-` rows exactly like claims, record unnarrated observations, sample the project's norms, then run the critique sweep from `references/critique-rubric.md` and write `critique.md`. Finish with `tour.verified.md`, then `manifest.json` last. Close only your own session.
+**2. Verify** (browser only). Read `references/verification-protocol.md`, then `agent-browser skills get core`. Preflight the URL; if unreachable, start the dev command; if it cannot start, every claim is `blocked(no-runtime)` and the pipeline continues. Fresh named session, `set viewport 1920 1080` (or the configured viewport) before the first navigation. Walk surfaces in tour order honoring preconditions. On each surface: the hidden-control sweep, then the component state pass (every class in `components.md`, every state in its row of `references/ui-state-model.md`, one `states.jsonl` row and one element screenshot per state), then the claims (run the sequence for each claim's kind; write the verdict row the moment it is decided), then the page dynamics pass (every declared breakpoint, every declared theme mode, reduced motion, overlays, forms, navigation, scroll, keyboard-only, time). When a narrated navigation fails, mark it, navigate directly to the destination, and continue with `reached_via: bypass`. After the passes: verify applicable `exp-` rows exactly like claims, record unnarrated observations, sample the project's norms, then run the critique from `references/critique-rubric.md` (design read, state matrix, transformations, then clustered floors) and write `critique.md`. Finish with `tour.verified.md`, then `manifest.json` last. Close only your own session.
 
 **3. Tickets.** Read `references/ticket-rules.md`. One ticket per contradicted claim, per unnarrated observation a user would call a defect, per failed expectation, and per finding at `medium` or above; `low` findings roll into one polish ticket per surface. Phase 3 may open the source files named in the phase 1 evidence to sharpen the root cause; every such sentence is marked `code-verified`. Verdicts are never revisited here. Every ticket ends with a fenced `Agent brief` and an acceptance block written as agent-browser commands with the exact expected output.
 
-**4. Report.** Write `results.md` and print the same block in chat: the functional gap (contradicted functional claims over decidable functional claims, split by confidence tier), findings by severity, unnarrated observation count, the three most consequential gaps in one line each, the safe-to-say running time, and the path to `tickets/index.md`. Update `manifest.json` last.
+**4. Report.** Write `results.md` and print the same block in chat: the functional gap (contradicted functional claims over decidable functional claims, split by confidence tier), findings by severity, state coverage (components inventoried, states exercised, missing, broken), transformations covered against those declared, the cross-surface consistency list, unnarrated observation count, the three most consequential gaps in one line each, the safe-to-say running time, and the path to `tickets/index.md`. Update `manifest.json` last.
 </phases>
 
 <claims>
@@ -84,10 +87,10 @@ Ids are stable forever, never renumbered; removed items get `status: retired`. `
 |---|---|---|---|
 | `exists` | no | an element, control, or page is present and visible | `snapshot -i`, `is visible`, screenshot |
 | `shows` | no | specific text, values, or records are displayed | `get text`, screenshot |
-| `looks` | no | a visual property holds (layout, order, style, state) | screenshot, `get box`, `get styles` |
+| `looks` | no | a visual property holds, including how a component looks in a named state (hover, focus, pressed, disabled, busy, loading, empty, error, open, invalid, dark, at a breakpoint) | put it in the state, then screenshot, `get box`, `get styles`, diffed against rest |
 | `does` | yes | a control produces an observable effect | perform it; URL, snapshot diff, `network requests`, `console`, screenshot after |
 | `flows` | yes | an action moves the user from surface A to surface B | perform it, `wait --url` or wait for the landing element, screenshot |
-| `state` | yes | something persists or changes across reload, navigation, or session | perform, reload or navigate, re-check, screenshot both |
+| `state` | yes | something persists or transforms: across reload, navigation, or session, or the page changes shape (a panel opens with focus inside, the rail collapses at a breakpoint, the theme switches) | perform, reload or navigate or resize, re-check, screenshot both |
 | `promise` | yes | copy or docs promise a capability ("export anytime", "enable 2FA below") | quote the copy, attempt what it promises, screenshot |
 
 A sentence that is both `exists` and `does` is two claims. Every claim carries: `id`, `surface`, `kind`, `functional`, `claim` (the sentence verbatim), `expected` (one observable), `trigger`, `preconditions`, `evidence` (`path:line`), `confidence`, `destructive`.
@@ -133,6 +136,12 @@ Phase 2 deliverable with the same evidence standard as verdicts. Each `critique.
 | "The code clearly handles this, so confirmed" | Code is not evidence in phase 2. Only the browser is. |
 | "40px is the rule, so the 39px buttons are findings" | The only rule is the project's own measured norm and the 24x24 floor. A 39px control in a 39px system is Clear. |
 | "The layout feels off" | Feels is not a measurement. Get the ratio, the box, the computed style, or put the feeling in the Impression paragraph. |
+| "Hover and focus are cosmetic, the click is what matters" | A hover-only action has no keyboard path; a missing focus ring strands keyboard users; a missing busy state double-submits. States are function. Drive every one. |
+| "The a11y audit and the contrast snippet cover the design review" | Those are floors. Hierarchy, grouping, repetition, signifiers, copy, state completeness, and transformations are the review; a critique with only floor rows was not written. |
+| "I cannot reach the empty or error state on this account" | Mock it: `network route --body '[]'`, `--abort`, `set offline on`. Record it as synthesized. A state you never saw is a state you never checked. |
+| "The app has no dark mode toggle, so skip dark" | If the stylesheet declares `.dark`, `[data-theme]`, or `prefers-color-scheme`, `set media dark` and measure. If it declares nothing, write `modes: light only` in the rubric and move on. |
+| "One breakpoint pass is enough" | The rubric lists the declared bands. Each one is a promise the layout changes there; measure each, one pixel above and below. |
+| "The page screenshot shows the finding" | It shows the page. Capture the element in the state that exhibits the problem, or an annotated region. |
 | "Login failed, so everything else is blocked" | Bypass by direct URL, tag `reached_via: bypass`, keep verifying. Blocked is for the truly unreachable. |
 | "Screenshots for every claim is overkill" | The screenshot is what a human uses to trust the verdict. No screenshot, no verdict. |
 | "The app will not start, skip phase 2" | `blocked(no-runtime)` on every claim still produces the ticket that unblocks the next run. Finish the pipeline. |
@@ -141,7 +150,7 @@ Phase 2 deliverable with the same evidence standard as verdicts. Each `critique.
 </rationalizations>
 
 <red-flags>
-Stop if you notice: an `agent-browser`, server-start, port-probe, or `curl` command before `claims.jsonl` exists; a verdict row with no screenshot path; a `does`, `flows`, `state`, or `promise` verdict decided from a static snapshot; a `code_peek` that changed a verdict; a markup-present, snapshot-absent control with no `obs-` row; a `confirmed` no-effect claim with no `obs-` row; a contradiction whose only evidence is a failed pointer click; a finding whose fix names no file or whose check is prose; a hit-area finding below no floor and off no measured norm; a ticket without an `Agent brief` or with prose acceptance; a viewport other than the configured one; `agent-browser close --all`; `npx agent-browser`; a re-tour that read `verdicts.jsonl`.
+Stop if you notice: an `agent-browser`, server-start, port-probe, or `curl` command before `claims.jsonl` exists; a verdict row with no screenshot path; a `does`, `flows`, `state`, or `promise` verdict decided from a static snapshot; a `code_peek` that changed a verdict; a markup-present, snapshot-absent control with no `obs-` row; a surface with interactive components and no `components.md` or no `looks` claims; a surface with no `states.jsonl` rows; a critique with no design read, state matrix, or transformations table; a finding whose screenshot is a page or claim capture that does not show the finding; a declared breakpoint or theme mode never measured; a contrast or hit-area finding filed per element instead of per rule; a `confirmed` no-effect claim with no `obs-` row; a contradiction whose only evidence is a failed pointer click; a finding whose fix names no file or whose check is prose; a hit-area finding below no floor and off no measured norm; a ticket without an `Agent brief` or with prose acceptance; a viewport other than the configured one; `agent-browser close --all`; `npx agent-browser`; a re-tour that read `verdicts.jsonl`.
 </red-flags>
 
 <quality-bar>

@@ -96,6 +96,14 @@
     },
     "created_run": {
       "type": "string"
+    },
+    "component": {
+      "type": "string",
+      "description": "component class from components.md, for looks/state claims"
+    },
+    "state": {
+      "type": "string",
+      "description": "state point from ui-state-model.md section 1, for looks/state claims"
     }
   }
 }

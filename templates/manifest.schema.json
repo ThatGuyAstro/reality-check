@@ -183,6 +183,10 @@
         },
         "tickets_by_status": {
           "type": "object"
+        },
+        "states": {
+          "type": "object",
+          "description": "present / missing / broken / synthesized counts from states.jsonl"
         }
       }
     },
@@ -236,6 +240,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "state_coverage": {
+          "type": "object",
+          "description": "components inventoried, states exercised, missing, broken"
         }
       }
     }

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Activity - Orbit</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="css/app.css"></head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="live-dot" aria-hidden="true"></span><span class="nav-label">Orbit</span><button id="nav-toggle" class="icon-btn" aria-label="Collapse navigation" aria-expanded="true" style="margin-left:auto">«</button></div>
+    <nav class="nav" aria-label="Main">
+      <a href="board.html"><span aria-hidden="true">▦</span><span class="nav-label">Board</span></a>
+      <a href="activity.html" aria-current="page"><span aria-hidden="true">◷</span><span class="nav-label">Activity</span></a>
+      <a href="settings.html"><span aria-hidden="true">⚙</span><span class="nav-label">Settings</span></a>
+    </nav>
+    <div style="margin-top:auto" class="nav-label"><span id="who"></span> · <button id="sign-out" class="link-like">Sign out</button></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="toolbar"><h1>Activity</h1></div>
+    <div class="content">
+      <section class="panel"><h2>Recent activity</h2><div id="activity"><div class="skeleton"></div><div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:85%"></div></div></section>
+      <section class="panel"><h2>Recent comments</h2><div id="comments"><div class="skeleton"></div><div class="skeleton" style="width:60%"></div></div></section>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+<script src="js/activity.js"></script>
+</body></html>

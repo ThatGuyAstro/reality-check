@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reality-check component state row (one per line in states.jsonl)",
+  "type": "object",
+  "required": [
+    "id",
+    "surface",
+    "run_id",
+    "component",
+    "state",
+    "trigger",
+    "expected",
+    "observed",
+    "verdict",
+    "screenshot"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^st-[a-z0-9-]+-[0-9]+$"
+    },
+    "surface": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "component": {
+      "type": "string",
+      "description": "class from components.md, or 'page' for dynamics rows"
+    },
+    "instance": {
+      "type": "string",
+      "description": "selector or ref of the instance driven"
+    },
+    "state": {
+      "type": "string",
+      "description": "rest|hover|focus-visible|active|disabled|busy|loading|empty|error|degraded|overflow|open|closed|expanded|selected|checked|invalid|dirty|submitting|succeeded|failed|dark|light|reduced-motion|narrow:<w>|offline|keyboard-only|sticky|deep-link|back|reload"
+    },
+    "trigger": {
+      "type": "string"
+    },
+    "expected": {
+      "type": "string",
+      "description": "what the code or the class row promises"
+    },
+    "observed": {
+      "type": "string",
+      "description": "the style/DOM diff or measurement, quoted"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "present",
+        "missing",
+        "broken",
+        "not-applicable"
+      ]
+    },
+    "synthesized": {
+      "type": "boolean"
+    },
+    "mock": {
+      "type": "string"
+    },
+    "screenshot": {
+      "type": "string"
+    },
+    "claim": {
+      "type": "string",
+      "description": "clm- id when a claim covers this state"
+    },
+    "observation": {
+      "type": "string",
+      "description": "obs- id written for missing/broken"
+    },
+    "decided_at": {
+      "type": "string"
+    }
+  }
+}

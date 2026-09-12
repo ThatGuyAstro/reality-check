@@ -11,7 +11,8 @@
     "screenshot",
     "severity",
     "gap",
-    "status"
+    "status",
+    "source"
   ],
   "properties": {
     "id": {
@@ -51,7 +52,9 @@
         "hidden-control",
         "confirmed-no-effect",
         "pointer-click-flaky",
-        "human-eye"
+        "human-eye",
+        "state-gap",
+        "transformation"
       ]
     },
     "related_claim": {

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Settings - Orbit</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="css/app.css"></head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="live-dot" aria-hidden="true"></span><span class="nav-label">Orbit</span><button id="nav-toggle" class="icon-btn" aria-label="Collapse navigation" aria-expanded="true" style="margin-left:auto">«</button></div>
+    <nav class="nav" aria-label="Main">
+      <a href="board.html"><span aria-hidden="true">▦</span><span class="nav-label">Board</span></a>
+      <a href="activity.html"><span aria-hidden="true">◷</span><span class="nav-label">Activity</span></a>
+      <a href="settings.html" aria-current="page"><span aria-hidden="true">⚙</span><span class="nav-label">Settings</span></a>
+    </nav>
+    <div style="margin-top:auto" class="nav-label"><span id="who"></span> · <button id="sign-out" class="link-like">Sign out</button></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="toolbar"><h1>Settings</h1></div>
+    <div class="content">
+      <section class="panel">
+        <h2>Profile</h2>
+        <form id="profile-form" novalidate>
+          <p id="profile-error" class="err" style="display:none">Something went wrong.</p>
+          <div class="field"><label for="display-name">Display name</label><input id="display-name" type="text"></div>
+          <div class="field"><label for="email2">Email</label><input id="email2" type="email"><span class="hint">Used for notifications.</span></div>
+          <button class="btn primary" type="submit" id="save-profile">Save</button>
+        </form>
+      </section>
+      <section class="panel">
+        <h2>Appearance</h2>
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="theme-toggle" style="height:auto"> Dark theme</label>
+      </section>
+      <section class="panel danger-zone">
+        <h2>Danger zone</h2>
+        <p class="hint">Deleting your workspace removes every board and task.</p>
+        <button class="btn" id="delete-ws">Delete workspace</button>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="js/app.js"></script>
+<script>
+(function () {
+  var session = JSON.parse(localStorage.getItem('orbit.session') || '{}');
+  var prefs = JSON.parse(localStorage.getItem('orbit.prefs') || '{}');
+  var name = document.getElementById('display-name'); name.value = session.name || '';
+  document.getElementById('email2').value = session.email || '';
+  // P6: generic error, field not named, Save never disabled, no success feedback
+  document.getElementById('profile-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = document.getElementById('profile-error');
+    if (!name.value.trim()) { err.style.display = 'block'; return; }
+    err.style.display = 'none';
+    session.name = name.value.trim(); localStorage.setItem('orbit.session', JSON.stringify(session));
+    document.getElementById('who').textContent = session.name;
+  });
+  var t = document.getElementById('theme-toggle'); t.checked = prefs.theme === 'dark';
+  t.addEventListener('change', function () {
+    prefs.theme = t.checked ? 'dark' : 'light'; localStorage.setItem('orbit.prefs', JSON.stringify(prefs));
+    document.body.classList.toggle('dark', t.checked);
+    window.orbitToast('Theme updated', 700); // P15: gone before it can be read
+  });
+  // P10/P5-adjacent: destructive action with no confirmation
+  document.getElementById('delete-ws').addEventListener('click', function () { localStorage.removeItem('orbit.prefs'); window.orbitToast('Workspace deleted', 700); });
+})();
+</script>
+</body></html>

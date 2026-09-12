@@ -1,0 +1,6 @@
+[
+  { "id": "tsk_1", "title": "Draft the Q3 roadmap", "status": "todo", "assignee": "usr_8f3a", "due": "Sep 18" },
+  { "id": "tsk_2", "title": "Fix the invoice export", "status": "todo", "assignee": "usr_2c11", "due": "Sep 20" },
+  { "id": "tsk_3", "title": "Interview two candidates", "status": "in_progress", "assignee": "usr_8f3a", "due": "Sep 15" },
+  { "id": "tsk_4", "title": "Migrate the billing webhook", "status": "in_progress", "assignee": "usr_9b07", "due": "Sep 22" }
+]

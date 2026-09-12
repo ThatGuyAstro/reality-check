@@ -124,6 +124,13 @@ A few rules make that gap honest instead of generous:
 - **The gap runs both directions.** What the code implied and the browser refuted,
   *and* what the browser revealed that the code never even hinted at (an unnarrated
   observation — the things a human notices that no line of the tour predicted).
+- **Every state is a surface.** A button is not one picture; it is rest, hover,
+  focus, pressed, disabled, and busy, in light and dark, at every breakpoint. A
+  list is loading, empty, full, overflowing, or failed. The tour claims the states
+  the code declares; the verify pass puts every component into every state and
+  photographs it; the critique judges whether the set is complete and whether each
+  state does its job. Contrast ratios and target sizes are floors, measured and
+  reported once as systemic clusters, never the whole review.
 - **Design findings are graded against the app's own norms, with hard floors that
   never move.** A 39px button in a codebase where every button is 39px is fine — that's
   the project's own standard. A 20px icon button is not, because 24×24 is a WCAG
@@ -251,6 +258,32 @@ clm-login-4   exists   guess   contradicted / model-belief
 Fix the CSS, run `reality-check :recheck TKT-003`, and the ticket flips itself to
 `fixed` — with the new screenshot as proof.
 
+## What it actually exercises
+
+Most "UI testing" checks that things exist. This checks that they *behave*, in every
+state a person can put them in:
+
+```
+  COMPONENT STATES                     PAGE DYNAMICS
+  ──────────────────                   ──────────────────
+  rest · hover · focus-visible         every declared breakpoint (+/- 1px)
+  active · disabled (+ reason)         light · dark · reduced motion
+  busy · loading · empty · error       dialogs: focus in, trap, Escape, return
+  open · expanded · selected           menus: outside click, Escape
+  invalid · dirty · submitting         forms: empty submit, bad input, double submit
+  succeeded · failed                   sticky chrome vs anchors and inner scroll
+  overflow (long strings, long lists)  soft vs hard navigation, back, deep link
+  offline · synthesized via mocks      keyboard-only path, toasts and timers
+```
+
+Each state gets a row in `states.jsonl` (present / missing / broken), an element
+screenshot taken while the state holds, and a computed-style diff against rest. The
+critique then reads the page the way a designer would: hierarchy, grouping,
+repetition, signifiers, copy honesty, consistency across surfaces, using named
+heuristics (Nielsen, Gestalt, Norman, Fitts) with a measurement behind each
+sentence. The vocabulary lives in
+[`references/ui-state-model.md`](references/ui-state-model.md).
+
 ## What you get back
 
 Everything lands in `docs/reality-check/` inside the project you ran it against —
@@ -265,14 +298,16 @@ docs/reality-check/
 ├── results.md                the headline numbers, printed and saved
 ├── claims.jsonl              one row per narrated claim
 ├── verdicts.jsonl             one row per verdict, append-only across re-runs
+├── states.jsonl               one row per component state and page dynamic exercised
 ├── observations.jsonl        things a human would notice that the tour never predicted
 ├── findings.jsonl             measured design/UX findings
 ├── surfaces/
 │   └── <page-slug>/
+│       ├── components.md     this page's state inventory (what the code declares per component)
 │       ├── claims.md         this page's claim ledger
-│       ├── verification.md   this page's verdicts + evidence
-│       ├── critique.md       this page's design/UX writeup
-│       └── screenshots/      proof for every verdict and finding
+│       ├── verification.md   this page's verdicts, state rows, evidence
+│       ├── critique.md       design read, state matrix, transformations, findings
+│       └── screenshots/      proof for every verdict, state, and finding
 └── tickets/
     ├── index.md               every ticket, by severity, in the order a user hits them
     ├── tickets.jsonl
@@ -382,20 +417,25 @@ after a bigger change and it'll tell you two separate things: what got fixed, an
 
 ## Try it on the bundled fixtures
 
-This repo ships two tiny, self-contained demo apps with intentionally planted bugs,
-used to prove the skill actually catches what it claims to catch:
+This repo ships three tiny, self-contained demo apps with intentionally planted bugs,
+used to prove the skill actually catches what it claims to catch. Two plant
+functional gaps (dead buttons, hidden links, missing pages); the third, Orbit, plants
+sixteen state, transformation, and design defects that no static audit finds: an
+untrapped dialog, a menu that never closes, hover-only actions, a skeleton that never
+resolves, a form that names no field, dark-mode white islands, a breakpoint that
+overlaps and overflows, a link dressed as a button, raw identifiers in copy, and a
+global `outline: none`.
 
 ```bash
 cd fixtures/ledgerlite/site && python3 -m http.server 4173 &
 reality-check http://localhost:4173
 ```
 
-`fixtures/ledgerlite/ANSWER-KEY.md` and `fixtures/acme/ANSWER-KEY.md` list every
-planted defect (never read these before running — that defeats the point). Grade a
-finished run against the key with:
+Each fixture's `ANSWER-KEY.md` lists every planted defect (never read these before
+running — that defeats the point). Grade a finished run against the key with:
 
 ```bash
-python3 grade.py docs/reality-check --fixture ledgerlite   # or: acme
+python3 grade.py docs/reality-check --fixture ledgerlite   # or: acme, orbit
 ```
 
 ## Origin story
